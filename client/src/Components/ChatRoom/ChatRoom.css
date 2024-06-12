@@ -5,7 +5,15 @@
     padding: 20px;
     
 }
-
+.header{
+    display: flex;
+}
+.refresh{
+    position: absolute;
+    right: 0;
+    /* top: 0; */
+    right: 3vw;
+}
 
 
 .messages {

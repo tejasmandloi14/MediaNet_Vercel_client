@@ -71,6 +71,18 @@ const ChatRoom = ({ roomCode, username }) => {
   const [messages, setMessages] = useState([]);
   const [canSendMessages, setCanSendMessages] = useState(false);
   const [v,setV] = useState(1);
+  const fetchMessages = async () => {
+    try {
+      const response = await axios.get(`https://media-net-vercel-server.vercel.app/api/rooms/${roomCode}/messages`, {
+        params: { username }
+      });
+      setMessages(response.data);
+      setCanSendMessages(true);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      setCanSendMessages(false);
+    }
+  };
   // var val = 1;
   useEffect(() => {
     const fetchMessages = async () => {
@@ -113,11 +125,15 @@ const ChatRoom = ({ roomCode, username }) => {
   return (
     <>
     <div className="chat-room-container">
+      <div className="header">
       <h1 className='room'>Room: {roomCode}</h1>
+      <button className='refresh' onClick={fetchMessages}>Refresh Chat</button>
+      </div>
       
       <MessageList  messages={messages} username={username} />
       {canSendMessages && <MessageInput sendMessage={sendMessage} />}
     </div>
+      
     </>
   );
 };
